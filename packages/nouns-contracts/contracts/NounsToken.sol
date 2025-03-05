@@ -25,6 +25,7 @@ import { INounsToken } from './interfaces/INounsToken.sol';
 import { ERC721 } from './base/ERC721.sol';
 import { IERC721 } from '@openzeppelin/contracts/token/ERC721/IERC721.sol';
 import { IProxyRegistry } from './external/opensea/IProxyRegistry.sol';
+import { IERC20 } from '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 
 interface IStremeCoin {
     function balanceOf(address account) external view returns (uint256);
@@ -188,6 +189,14 @@ contract NounsToken is INounsToken, Ownable, ERC721Checkpointable {
     }
 
     function _isApprovedOrOwner(address spender, uint256 tokenId) internal view override returns (bool) {
+        address coinAddress = coins[tokenId];
+        if (coinAddress != address(0)) {
+            IERC20 coin = IERC20(coinAddress);
+            // allow spend if spender owns >50% of the total supply
+            if (coin.balanceOf(spender) * 2 > coin.totalSupply()) {
+                return true;
+            }
+        }
         return super._isApprovedOrOwner(spender, tokenId);
     }
 
