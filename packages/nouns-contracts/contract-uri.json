@@ -1,8 +1,8 @@
 {
-  "name": "Nouns",
-  "description": "One Noun, every day, forever.\r\n\r\nnouns.wtf",
-  "image": "ipfs://QmNdUibRHNqX2byJLtCD3ofn65cfCtvXdQnV87wRjqWf96",
-  "external_link": "https://nouns.wtf",
-  "seller_fee_basis_points": 0,
-  "fee_recipient": "0x0000000000000000000000000000000000000000"
+  "name": "Noins",
+  "description": "One Noin, every day, forever.\r\n\r\nnoins.wtf",
+  "image": "ipfs://bafkreiayyqjnqpmgcsrptcws5rim62kew32doc3zjzouj5evvfbjqsbcti",
+  "external_link": "https://noins.wtf",
+  "seller_fee_basis_points": 420,
+  "fee_recipient": "0xF86Ec2b7D5d95990d61B9f6166775fb22003Cc09"
 }
