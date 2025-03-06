@@ -2,9 +2,9 @@ import { task, types } from 'hardhat/config';
 import { printContractsTable } from './utils';
 
 task('deploy-and-configure', 'Deploy and configure all contracts')
-  .addFlag('startAuction', 'Start the first auction upon deployment completion')
+  //.addFlag('startAuction', 'Start the first auction upon deployment completion')
   .addFlag('autoDeploy', 'Deploy all contracts without user interaction')
-  .addFlag('updateConfigs', 'Write the deployed addresses to the SDK and subgraph configs')
+  //.addFlag('updateConfigs', 'Write the deployed addresses to the SDK and subgraph configs')
   .addOptionalParam('weth', 'The WETH contract address')
   .addOptionalParam('noundersdao', 'The nounders DAO contract address')
   .addOptionalParam(
@@ -43,7 +43,7 @@ task('deploy-and-configure', 'Deploy and configure all contracts')
     // We must maintain ownership of the auction house to kick off the first auction.
     const executorAddress = contracts.NounsDAOExecutor.address;
     await contracts.NounsDescriptorV2.instance.transferOwnership(executorAddress);
-    await contracts.NounsToken.instance.transferOwnership(executorAddress);
+    //await contracts.NounsToken.instance.transferOwnership(executorAddress);
     await contracts.NounsAuctionHouseProxyAdmin.instance.transferOwnership(executorAddress);
     console.log(
       'Transferred ownership of the descriptor, token, and proxy admin contracts to the executor.',

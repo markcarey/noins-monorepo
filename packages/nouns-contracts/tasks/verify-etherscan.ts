@@ -27,7 +27,8 @@ task('verify-etherscan', 'Verify the Solidity contracts on Etherscan')
           ...contract,
           contract: nameToFullyQualifiedName[contract.name],
         });
-      } catch ({ message }) {
+      } catch (error: any) {
+        const { message } = error;
         if ((message as string).includes('Reason: Already Verified')) {
           continue;
         }

@@ -7,6 +7,8 @@ export enum ChainId {
   Goerli = 5,
   Kovan = 42,
   Sepolia = 11155111,
+  Base = 8543,
+  BaseSepolia = 84532,
 }
 
 // prettier-ignore

@@ -19,6 +19,7 @@
     "task:deploy-and-configure": "npx hardhat deploy-and-configure",
     "task:mint-noun": "npx hardhat mint-noun",
     "task:populate-descriptor": "npx hardhat populate-descriptor",
+    "task:verify-etherscan": "npx hardhat verify-etherscan",
     "task:run-local": "npx hardhat run-local",
     "test": "npx hardhat test",
     "coverage": "npx hardhat coverage",

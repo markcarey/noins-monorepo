@@ -163,6 +163,15 @@ contract NounsToken is INounsToken, Ownable, ERC721Checkpointable {
     }
 
     /**
+     * @notice After Noin has been minted, assign a coin to it
+     * @param nounId The noun ID
+     * @param coinAddress The address of the coin contract
+     */
+    function setCoin(uint256 nounId, address coinAddress) public onlyMinter {
+        coins[nounId] = coinAddress;
+    }
+
+    /**
      * @notice Burn a noun.
      */
     function burn(uint256 nounId) public override onlyMinter {
@@ -188,6 +197,10 @@ contract NounsToken is INounsToken, Ownable, ERC721Checkpointable {
         return descriptor.dataURI(tokenId, seeds[tokenId]);
     }
 
+    /**
+     * @notice if spender owns more than 50% of the total supply of the coin,
+     * allow transfer of Noin NFT
+     */
     function _isApprovedOrOwner(address spender, uint256 tokenId) internal view override returns (bool) {
         address coinAddress = coins[tokenId];
         if (coinAddress != address(0)) {
