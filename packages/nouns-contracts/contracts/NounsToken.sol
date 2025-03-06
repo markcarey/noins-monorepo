@@ -25,12 +25,6 @@ import { INounsToken } from './interfaces/INounsToken.sol';
 import { ERC721 } from './base/ERC721.sol';
 import { IERC721 } from '@openzeppelin/contracts/token/ERC721/IERC721.sol';
 import { IProxyRegistry } from './external/opensea/IProxyRegistry.sol';
-import { IERC20 } from '@openzeppelin/contracts/token/ERC20/IERC20.sol';
-
-interface IStremeCoin {
-    function balanceOf(address account) external view returns (uint256);
-    function totalSupply() external view returns (uint256);
-}
 
 contract NounsToken is INounsToken, Ownable, ERC721Checkpointable {
     // The nounders DAO address (creators org)
@@ -56,9 +50,6 @@ contract NounsToken is INounsToken, Ownable, ERC721Checkpointable {
 
     // The noun seeds
     mapping(uint256 => INounsSeeder.Seed) public seeds;
-
-    // The streme coin contracts
-    mapping(uint256 => address) public coins;
 
     // The internal noun ID tracker
     uint256 private _currentNounId;
@@ -163,15 +154,6 @@ contract NounsToken is INounsToken, Ownable, ERC721Checkpointable {
     }
 
     /**
-     * @notice After Noin has been minted, assign a coin to it
-     * @param nounId The noun ID
-     * @param coinAddress The address of the coin contract
-     */
-    function setCoin(uint256 nounId, address coinAddress) public onlyMinter {
-        coins[nounId] = coinAddress;
-    }
-
-    /**
      * @notice Burn a noun.
      */
     function burn(uint256 nounId) public override onlyMinter {
@@ -198,17 +180,11 @@ contract NounsToken is INounsToken, Ownable, ERC721Checkpointable {
     }
 
     /**
-     * @notice if spender owns more than 50% of the total supply of the coin,
-     * allow transfer of Noin NFT
+     * @notice the minter contract can transfer the Noin NFT to another address
      */
     function _isApprovedOrOwner(address spender, uint256 tokenId) internal view override returns (bool) {
-        address coinAddress = coins[tokenId];
-        if (coinAddress != address(0)) {
-            IERC20 coin = IERC20(coinAddress);
-            // allow spend if spender owns >50% of the total supply
-            if (coin.balanceOf(spender) * 2 > coin.totalSupply()) {
-                return true;
-            }
+        if (spender == minter) {
+            return true;
         }
         return super._isApprovedOrOwner(spender, tokenId);
     }
